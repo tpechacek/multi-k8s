@@ -13,7 +13,7 @@ const app = express();
 // bodyParser helps turn body of POST request into a JSON value that
 // Express API can work with.
 app.use(cors());
-app.use(bodyParser());
+app.use(bodyParser.json());
 
 // Postgres Client Setup
 const { Pool } = require('pg');
