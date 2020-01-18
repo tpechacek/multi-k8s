@@ -1,0 +1,26 @@
+language: generic
+
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t tpechacek/react-complex -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true tpechacek/react-complex npm test
+
+after_success:
+  - docker build -t tpechacek/multi-client ./client
+  - docker build -t tpechacek/multi-nginx ./nginx
+  - docker build -t tpechacek/multi-server ./server
+  - docker build -t tpechacek/multi-worker ./worker
+
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  # Take these images and push them to Docker Hub.
+  - docker push tpechacek/multi-client
+  - docker push tpechacek/multi-nginx
+  - docker push tpechacek/multi-server
+  - docker push tpechacek/multi-worker
