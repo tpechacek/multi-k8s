@@ -16,7 +16,7 @@ after_success:
   - docker build -t tpechacek/multi-server ./server
   - docker build -t tpechacek/multi-worker ./worker
 
-  # Log in to the docker CLI
+  # Log in to the docker CLI. Add
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
   # Take these images and push them to Docker Hub.
